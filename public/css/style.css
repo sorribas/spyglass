@@ -1,0 +1,19 @@
+.remote {
+  height: 160px;
+}
+
+.service {
+  height: 190px;
+}
+
+.remove-service {
+  float: right;
+  margin-top: -75px;
+  cursor: pointer;
+}
+
+#loading {
+  display: none;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}

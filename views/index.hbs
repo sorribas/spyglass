@@ -1,0 +1,67 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spyglass</title>
+
+    
+    <meta name="description" content="Documentation and reference library for ZURB Foundation. JavaScript, CSS, components, grid and more." />
+    
+    <meta name="author" content="ZURB, inc. ZURB network also includes zurb.com" />
+    <meta name="copyright" content="ZURB, inc. Copyright (c) 2013" />
+
+    <link rel="stylesheet" href="/foundation/css/foundation.css" />
+    <link rel="stylesheet" href="/foundation-icons/foundation_icons_general/stylesheets/general_foundicons.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/foundation/js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+    
+
+  <!-- Header and Nav -->
+
+  <div class="row">
+    <div class="large-10 columns">
+      <h1 id="title">Spyglass</h1>
+    </div>
+    <div class="large-2 columns">
+      <img id="loading" src="/img/loading.gif" alt="" />
+    </div>
+  </div>
+
+  <!-- End Header and Nav -->
+
+
+  <!-- First Band (Image) -->
+
+  <div id="main">
+  </div>
+  <!-- Second Band (Image Left with Text) -->
+
+  <div id="modal" class="reveal-modal" data-reveal>
+  </div>
+
+  <!-- Footer -->
+
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr />
+      <div class="row">
+        <div class="large-12 columns">
+          <p>&copy; Copyright no one at all. Go to town.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+    <script src="/js/bundle.js"></script>
+    <script src="/foundation/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+
+      var doc = document.documentElement;
+      doc.setAttribute('data-useragent', navigator.userAgent);
+    </script>
+  </body>
+</html>
