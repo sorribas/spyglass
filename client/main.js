@@ -9,7 +9,14 @@ var ServiceList = require('./components/service-list');
 var ServiceForm = require('./components/service-form');
 
 var onerror = function() {
-  alert('OH NOES!');
+  var component = function() {
+    return (
+    <div className="row">
+      <h2>Oh noes!</h2>
+      <img width="800" src="http://upload.wikimedia.org/wikipedia/commons/b/b1/A_Costa_Concordia_kiemel%C3%A9se.jpg" />
+    </div>);
+  };
+  React.renderComponent(component(), $('#main')[0]);
 };
 
 page('/', function() {
@@ -42,7 +49,9 @@ page('/remotes/:name', function(ctx) {
 
 page('/services/new/:remote', function(ctx) {
   $(function() {
-    React.renderComponent(<ServiceForm remote={ctx.params.remote} />, $('#modal')[0]);
+    var comp = React.renderComponent(<ServiceForm remote={ctx.params.remote} />, $('#modal')[0]);
+    comp.replaceState({});
+    $('#modal form')[0].reset();
     $('#modal').foundation('reveal', 'open');
   });
 });
@@ -52,6 +61,10 @@ page('/services/remove/:remote/:service', function(ctx) {
     if (err) return onerror(err);
     page('/remotes/' + ctx.params.remote);
   });
+});
+
+page('/services/edit/:remote/:serice', function() {
+  // ignore
 });
 
 page();

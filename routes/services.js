@@ -44,6 +44,21 @@ exports.add = function(req, res) {
   });
 };
 
+exports.edit = function(req, res) {
+  req.on('json', function(service) {
+    var c = client(service.remote);
+    var id = service.name;
+
+    delete service.name;
+    delete service.remote;
+
+    c.update(id, service, function(err) {
+      if (err) return res.error(500);
+      res.send({ok: true});
+    });
+  });
+};
+
 exports.delete = function(req, res) {
   var c = client(req.params.remote);
 
