@@ -50,6 +50,7 @@ var ServiceForm = React.createClass({
         <h3>Add service</h3>
         {this.nameInput()}
         <input type="text" value={this.state.start} placeholder="Start script" onChange={this.change('start')} />
+        <input type="text" value={this.state.build} placeholder="Build script" onChange={this.change('build')} />
         <input type="text" value={this.state.tags} placeholder="Tags (space separated)" onChange={this.change('tags')} />
         <a onClick={this.save} className="button">Save</a>
       </form>
