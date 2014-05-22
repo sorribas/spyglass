@@ -14,7 +14,7 @@ var Service = React.createClass({
     page('/services/edit/' + this.props.remote + '/' + this.props.service.id);
     var comp = React.renderComponent(<ServiceForm id={this.props.service.id} remote={this.props.remote} />, $('#modal')[0]);
     $('#modal form')[0].reset();
-    comp.setState(this.props.service);
+    comp.replaceState(this.props.service);
     $('#modal').foundation('reveal', 'open');
   },
 
