@@ -15,7 +15,9 @@ exports.list = function(req, res) {
 
   c.list(function(err, services) {
     if (err) return res.error(500);
-    res.send(services);
+    res.send(services.sort(function(a, b) {
+      return a.id.localeCompare(b.id);
+    }));
   });
 };
 
