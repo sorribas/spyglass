@@ -79,7 +79,7 @@ var ServiceForm = React.createClass({
     });
 
     var addEnv = function() {
-      var env = self.state.env;
+      var env = self.state.env || {};
       env[''] = '';
       self.setState({env: env});
     };
