@@ -13,6 +13,6 @@ app.get('*', function(req, res) {
   res.render('index.hbs');
 });
 
-app.listen(3000, function(err, server) {
+app.listen(process.env.PORT || 3000, function(err, server) {
   console.log('Spyglass server listening on port', server.address().port);
 });
