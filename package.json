@@ -24,11 +24,11 @@
     "routil-cookie": "0.0.1",
     "send": "^0.3.0",
     "superagent": "^0.18.0",
-    "watchify": "^0.10.1",
     "xtend": "^3.0.0"
   },
   "devDependencies": {
     "napa": "^0.4.1",
-    "browserify": "^4.1.5"
+    "browserify": "^4.1.5",
+    "watchify": "^0.10.1"
   }
 }
