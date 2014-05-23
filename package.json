@@ -1,11 +1,12 @@
 {
-  "name": "spyglass",
+  "name": "spyglass-app",
   "version": "0.0.1",
   "description": "A web ui for the hms deployment tool.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "napa zurb/bower-foundation && napa zurb/foundation-icons"
+    "install": "napa zurb/bower-foundation && napa zurb/foundation-icons",
+    "build": "browserify client/main.js -o public/js/bundle.js -t reactify"
   },
   "author": "",
   "license": "MIT",
