@@ -27,7 +27,9 @@ var Service = React.createClass({
   },
 
   remove: function() {
-    page('/services/remove/' + this.props.remote+ '/' + this.props.service.id);
+    var promptText = 'Are you sure you want to remove the service? Write the service name to confirm';
+    if (prompt(promptText) === this.props.service.id) page('/services/remove/' + this.props.remote+ '/' + this.props.service.id);
+    else alert('Wrong service name.');
   },
 
   icon: function() {
