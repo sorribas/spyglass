@@ -1,72 +1,95 @@
+var fs = require('fs');
+var path = require('path');
 var hms = require('hms');
-var remotes = require('hms/lib/remotes');
 
 var clients = { };
 
-var client = function(rem) {
-  if (clients[rem]) return clients[rem];
+var home = process.env.HOME || process.env.USERPROFILE;
+var file = path.join(home, '.hms.json');
 
-  var remote = remotes.read(rem);
-  return clients[rem] = hms(remote);
+var client = function(rem, cb) {
+  if (clients[rem]) return process.nextTick(function() {
+    cb(null, clients[rem]);
+  });
+
+  fs.readFile(file, function(err, contents) {
+    if (err) return cb(err);
+    var remotes;
+    try{
+      remotes = JSON.parse(contents);
+    } catch(err) {
+      remotes = {};
+    }
+
+    cb(null, clients[rem] = hms(remotes[rem]));
+  });
 };
 
 exports.list = function(req, res) {
-  var c = client(req.params.remote);
-
-  c.list(function(err, services) {
+  client(req.params.remote, function(err, c) {
     if (err) return res.error(500);
-    res.send(services.sort(function(a, b) {
-      return a.id.localeCompare(b.id);
-    }));
-  });
-};
 
-exports.ps = function(req, res) {
-  var c = client(req.params.remote);
-
-  c.ps(function(err, services) {
-    if (err) return res.error(500);
-    res.send(services);
-  });
-
-};
-
-exports.add = function(req, res) {
-  req.on('json', function(service) {
-    var c = client(service.remote);
-    var id = service.name;
-
-    delete service.name;
-    delete service.remote;
-
-    c.add(id, service, function(err) {
+    c.list(function(err, services) {
       if (err) return res.error(500);
-      res.send({ok: true});
+
+      res.send(services.sort(function(a, b) {
+        return a.id.localeCompare(b.id);
+      }));
     });
   });
 };
 
+exports.ps = function(req, res) {
+  client(req.params.remote, function(err, c) {
+    if (err) return res.error(500);
+    c.ps(function(err, services) {
+      if (err) return res.error(500);
+      res.send(services);
+    });
+  });
+};
+
+exports.add = function(req, res) {
+  req.on('json', function(service) {
+    client(service.remote, function(err, c) {
+      if (err) return res.error(500);
+      var id = service.name;
+
+      delete service.name;
+      delete service.remote;
+
+      c.add(id, service, function(err) {
+        if (err) return res.error(500);
+        res.send({ok: true});
+      });
+    });
+  })
+};
+
 exports.edit = function(req, res) {
   req.on('json', function(service) {
-    var c = client(service.remote);
-    var id = service.name;
-
-    delete service.name;
-    delete service.remote;
-
-    c.update(id, service, function(err) {
+    client(service.remote, function(err, c) {
       if (err) return res.error(500);
-      res.send({ok: true});
+      var id = service.name;
+
+      delete service.name;
+      delete service.remote;
+
+      c.update(id, service, function(err) {
+        if (err) return res.error(500);
+        res.send({ok: true});
+      });
     });
   });
 };
 
 exports.delete = function(req, res) {
-  var c = client(req.params.remote);
-
-  c.remove(req.params.service, function(err) {
+  client(req.params.remote, function(err, c) {
     if (err) return res.error(500);
-    res.statusCode = 204;
-    res.send('');
+    c.remove(req.params.service, function(err) {
+      if (err) return res.error(500);
+      res.statusCode = 204;
+      res.send('');
+    });
   });
 };
