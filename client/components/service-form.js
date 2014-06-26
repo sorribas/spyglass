@@ -30,6 +30,7 @@ var ServiceForm = React.createClass({
 
     var service = xtend(this.state);
     service.remote = this.props.remote;
+    service.env = service.env || [];
     service.env = service.env.reduce(function(obj, envVar) {
       obj[envVar.key] = envVar.value;
       return obj;
