@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var hms = require('hms');
+var valid = require('../schema')
 
 var clients = { };
 
@@ -51,6 +52,7 @@ exports.ps = function(req, res) {
 
 exports.add = function(req, res) {
   req.on('json', function(service) {
+    if (!valid(service)) return res.error(400, 'Invalid data:' + valid.errorsText());
     client(service.remote, function(err, c) {
       if (err) return res.error(500);
       var id = service.name;

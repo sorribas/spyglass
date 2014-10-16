@@ -3,6 +3,7 @@ var React = require('react');
 var xtend = require('xtend');
 var superagent = require('superagent');
 var page = require('page');
+var valid = require('../../schema');
 
 var ServiceForm = React.createClass({
 
@@ -38,8 +39,10 @@ var ServiceForm = React.createClass({
 
     if (this.props.id) {
       service.name = this.props.id;
+      if (!valid(service)) return this.setState({errors: valid.errorsText()})
       return superagent.put('/api/services').send(service).end(onsave);
     }
+    if (!valid(service)) return  this.setState({errors: valid.errorsText()})
     superagent.post('/api/services').send(service).end(onsave);
   },
 
@@ -115,10 +118,22 @@ var ServiceForm = React.createClass({
     return <input type="text" value={this.state.name} placeholder="Name" onChange={this.change('name')} />;
   },
 
+  errors: function() {
+    if (!this.state.errors) return <span />
+
+    return (
+      <div className="alert-box alert round">
+        {this.state.errors}
+        <a href="#" className="close">&times;</a>
+      </div>
+    );
+  },
+
   render: function() {
     return (
       <form action="">
         <h3>Add service</h3>
+        {this.errors()}
         {this.nameInput()}
         <input type="text" value={this.state.start} placeholder="Start script" onChange={this.change('start')} />
         <input type="text" value={this.state.build} placeholder="Build script" onChange={this.change('build')} />
